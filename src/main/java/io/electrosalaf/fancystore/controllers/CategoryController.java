@@ -6,12 +6,10 @@ import io.electrosalaf.fancystore.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -35,5 +33,27 @@ public class CategoryController {
         return new ResponseEntity<>(
                 new ApiResponse(true, "category created"), HttpStatus.CREATED
         );
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Category>> getCategories() {
+        List<Category> categories = categoryService.listCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
+    @PostMapping("/update/{categoryID}")
+    public ResponseEntity<ApiResponse> updateCategory(
+            @PathVariable("categoryID") Integer categoryID,
+            @Valid @RequestBody Category category) {
+
+        // check if category exists
+        if (Objects.nonNull(categoryService.readCategory(categoryID))) {
+            // update if exists
+            categoryService.updateCategory(categoryID, category);
+            return new ResponseEntity<ApiResponse>(new ApiResponse(true, "category updated successfully"), HttpStatus.OK);
+        }
+
+        // return unsuccessful response if category does not exist
+        return new ResponseEntity<>(new ApiResponse(false, "category does not exist"), HttpStatus.NOT_FOUND);
     }
 }
