@@ -1,6 +1,7 @@
 package io.electrosalaf.fancystore.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "categories")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Category {
 
     @Id
@@ -22,9 +24,6 @@ public class Category {
     private @NotBlank String description;
 
     private @NotBlank String imageUrl;
-
-    public Category() {
-    }
 
     public Category(@NotBlank String categoryName, @NotBlank String description) {
         this.categoryName = categoryName;
