@@ -23,4 +23,19 @@ springdoc:
     path: /api-docs
     operations-sorter: method
 
+api:
+  info:
+    title: Fancy Store API
+    description: Fancy Store API Documentation
+    version: 1.0.0
+    terms-of-service: https://fancystore.io/terms
+    contact:
+     name: Fancy Store API Team
+     email: apiteam@fancystore.io
+     url: https://fancystore.io/team
+    licence:
+      name: Apache 2.0
+      url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+
 
