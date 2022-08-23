@@ -1,31 +1,89 @@
 package io.electrosalaf.fancystore.config;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
+@ConditionalOnProperty(name = "springdoc.swagger-ui.enabled", havingValue = "true", matchIfMissing = true)
 public class OpenApiConfig {
 
-    private String
-}
+    private static final String BEARER_FORMAT = "JWT";
+    private static final String SCHEME = "Bearer";
+    private static final String SECURITY_SCHEME_NAME = "Security Scheme";
+
+    @Value("${api.info.title: api.info.title}")
+    private String title;
+
+    @Value("${api.info.description: api.info.description}")
+    private String description;
+
+    @Value("${api.info.version: api.info.version}")
+    private String version;
+
+    @Value("${api.info.term-of-service: api.info.terms-of-service}")
+    private String termOfService;
+
+    @Value("${api.info.contact.name: api.info.contact.name}")
+    private String contactName;
+
+    @Value("${api.info.contact.email: api.info.contact.email}")
+    private String contactEmail;
+
+    @Value("${api.info.contact.url: api.info.contact.url}")
+    private String contactUrl;
+
+    @Value("${api.info.licence.name: api.info.licence.name}")
+    private String licenceName;
+
+    @Value("${api.info.licence.url: api.info.licence.url}")
+    private String licenceUrl;
+
     @Bean
-    public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("io.electrosalaf.fancystore"))
-                .paths(PathSelectors.any())
-                .build().apiInfo(getApiInfo());
+    public OpenAPI productApi() {
+        return new OpenAPI()
+                .schemaRequirement(SECURITY_SCHEME_NAME, getSecurityScheme())
+                .security(getSecurityRequirement())
+                .info(getApiInfo());
     }
 
-    public ApiInfo getApiInfo() {
-        Contact contact = new Contact("electrosalaf", "https://electrosalaf.io", "contact.electrosalaf@gmail.com");
-        return new ApiInfoBuilder()
-                .title("FancyStore API")
-                .description("FancyStore API Documentation")
-                .version("1.0.0")
-                .license("Apache 2.0")
-                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
+    private Info getApiInfo() {
+        Contact contact = new Contact().name(contactName).email(contactEmail).url(contactUrl);
+
+        License licence = new License().name(licenceName).url(licenceUrl);
+
+        return new Info()
+                .title(title)
+                .description(description)
+                .version(version)
                 .contact(contact)
-                .build();
+                .license(licence);
     }
+
+
+    private List<SecurityRequirement> getSecurityRequirement() {
+        SecurityRequirement securityRequirement = new SecurityRequirement();
+        securityRequirement.addList(SECURITY_SCHEME_NAME);
+        return List.of(securityRequirement);
+    }
+
+    private SecurityScheme getSecurityScheme() {
+       SecurityScheme securityScheme = new SecurityScheme();
+       securityScheme.bearerFormat(BEARER_FORMAT);
+       securityScheme.type(SecurityScheme.Type.HTTP);
+       securityScheme.in(SecurityScheme.In.HEADER);
+       securityScheme.scheme(SCHEME);
+       return securityScheme;
+    }
+}
+
 
