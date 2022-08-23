@@ -4,7 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SwaggerConfig {
+public class OpenApiConfig {
+
+    private String
+}
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
