@@ -1,4 +1,4 @@
-package io.electrosalaf.fancystore.config;
+package io.electrosalaf.fancystore.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
