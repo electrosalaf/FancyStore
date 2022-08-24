@@ -23,22 +23,22 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<Category>> getCategories() {
+        List<Category> categories = categoryService.listCategories();
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<ApiResponse> createCategory(@Valid @RequestBody Category category) {
         if (Objects.nonNull(categoryService.readCategory(category.getCategoryName()))) {
-            return new ResponseEntity<ApiResponse>
-                    (new ApiResponse(false, "category already exists"),  HttpStatus.CONFLICT);
+            return new ResponseEntity<>
+                    (new ApiResponse(false, "category already exists"), HttpStatus.CONFLICT);
         }
         categoryService.createCategory(category);
         return new ResponseEntity<>(
                 new ApiResponse(true, "category created"), HttpStatus.CREATED
         );
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<Category>> getCategories() {
-        List<Category> categories = categoryService.listCategories();
-        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PostMapping("/update/{categoryID}")
