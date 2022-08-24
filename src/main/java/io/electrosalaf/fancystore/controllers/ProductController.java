@@ -1,6 +1,6 @@
 package io.electrosalaf.fancystore.controllers;
 
-import io.electrosalaf.fancystore.config.ApiResponse;
+import io.electrosalaf.fancystore.common.ApiResponse;
 import io.electrosalaf.fancystore.dto.product.ProductDto;
 import io.electrosalaf.fancystore.model.Category;
 import io.electrosalaf.fancystore.service.CategoryService;
