@@ -50,7 +50,7 @@ public class CategoryController {
         if (Objects.nonNull(categoryService.readCategory(categoryID))) {
             // update if exists
             categoryService.updateCategory(categoryID, category);
-            return new ResponseEntity<ApiResponse>(new ApiResponse(true, "category updated successfully"), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse(true, "category updated successfully"), HttpStatus.OK);
         }
 
         // return unsuccessful response if category does not exist
