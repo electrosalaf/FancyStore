@@ -1,19 +1,13 @@
 server:
-  port: 8080
+  port: ${PORT:******}
 spring:
   datasource:
-    url: jdbc:h2:file:./fancydb
-    username: electron
-    password: 3f+r$OqU~'T!Iwh-
-    driver-class-name: org.h2.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    url: ${URL:****************}
+    username: ${USERNAME:*******}
+    password: ${PASSWORD:*******}
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hibernate:
       ddl-auto: update
-  h2:
-    console:
-      path: /h2-console
-      enabled: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
