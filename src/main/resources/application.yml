@@ -1,10 +1,10 @@
 server:
-  port: ${PORT:***************}
+  port: ${port:***************}
 spring:
   datasource:
-    url: ${URL:****************}
-    username: ${USERNAME:*******}
-    password: ${PASSWORD:*******}
+    url: ${url:****************}
+    username: ${username:*******}
+    password: ${password:*******}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hibernate:
       ddl-auto: update
