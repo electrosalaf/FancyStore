@@ -1,7 +1,7 @@
 package io.electrosalaf.fancystore.exceptions;
 
-public class AuthenticationFailedException extends Exception {
-    public AuthenticationFailedException(String message) {
+public class AuthenticationFailException extends Exception {
+    public AuthenticationFailException(String message) {
         super(message);
     }
 }
