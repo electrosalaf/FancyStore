@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SignInDtoResponse {
+public class SignInResponseDto {
     private String status;
     private String token;
 }
