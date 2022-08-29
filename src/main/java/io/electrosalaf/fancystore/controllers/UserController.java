@@ -1,7 +1,10 @@
 package io.electrosalaf.fancystore.controllers;
 
-import io.electrosalaf.fancystore.dto.user.SignupDto;
+import io.electrosalaf.fancystore.dto.user.SignInDto;
+import io.electrosalaf.fancystore.dto.user.SignInResponseDto;
+import io.electrosalaf.fancystore.dto.user.SignUpDto;
 import io.electrosalaf.fancystore.dto.user.SignupResponseDto;
+import io.electrosalaf.fancystore.exceptions.AuthenticationFailException;
 import io.electrosalaf.fancystore.exceptions.CustomException;
 import io.electrosalaf.fancystore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,12 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public SignupResponseDto Signup(@RequestBody SignupDto signupDto) throws CustomException {
+    public SignupResponseDto signup(@RequestBody SignUpDto signupDto) throws CustomException {
         return userService.signup(signupDto);
+    }
+
+    @PostMapping("/signin")
+    public SignInResponseDto signIn(@RequestBody SignInDto signInDto) throws AuthenticationFailException, CustomException {
+        return userService.signIn(signInDto);
     }
 }
