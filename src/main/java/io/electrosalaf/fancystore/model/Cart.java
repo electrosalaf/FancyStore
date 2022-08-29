@@ -31,7 +31,7 @@ public class Cart {
 
     private int quantity;
 
-    public Cart(Product product, User user, int quantity) {
+    public Cart(Product product, int quantity, User user) {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
