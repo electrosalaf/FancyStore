@@ -1,6 +1,7 @@
 package io.electrosalaf.fancystore.service;
 
 import io.electrosalaf.fancystore.dto.product.ProductDto;
+import io.electrosalaf.fancystore.exceptions.ProductNotExistException;
 import io.electrosalaf.fancystore.model.Category;
 import io.electrosalaf.fancystore.model.Product;
 import io.electrosalaf.fancystore.repository.ProductRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -50,5 +52,14 @@ public class ProductService {
 
         product.setId(productID);
         productRepository.save(product);
+    }
+
+    public Product getProductById(Integer productId) throws ProductNotExistException {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if (!optionalProduct.isPresent()) {
+            throw new ProductNotExistException("product id is invalid");
+        }
+        return optionalProduct.get();
     }
 }
