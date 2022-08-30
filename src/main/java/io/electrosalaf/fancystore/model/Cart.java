@@ -1,8 +1,7 @@
 package io.electrosalaf.fancystore.model;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,8 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "cart")
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Cart {
 
     @Id
@@ -19,7 +17,7 @@ public class Cart {
     private Integer id;
 
     @Column(name = "created_date")
-    private Date dateCreated;
+    private Date createdDate;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -35,6 +33,6 @@ public class Cart {
         this.user = user;
         this.product = product;
         this.quantity = quantity;
-        this.dateCreated = new Date();
+        this.createdDate = new Date();
     }
 }
