@@ -2,6 +2,7 @@ package io.electrosalaf.fancystore.controllers;
 
 import io.electrosalaf.fancystore.common.ApiResponse;
 import io.electrosalaf.fancystore.dto.cart.AddToCartDto;
+import io.electrosalaf.fancystore.dto.cart.CartDto;
 import io.electrosalaf.fancystore.exceptions.AuthenticationFailException;
 import io.electrosalaf.fancystore.exceptions.ProductNotExistException;
 import io.electrosalaf.fancystore.model.Product;
@@ -47,5 +48,15 @@ public class CartController {
         cartService.addToCart(addToCartDto, product, user);
 
         return new ResponseEntity<>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<CartDto> getCartItems(@RequestParam("token") String token)
+            throws AuthenticationFailException {
+        authenticationService.authenticate(token);
+        User user = authenticationService.getUser(token);
+
+        CartDto cartDto = cartService.listCartItems(user);
+        return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }
 }
