@@ -7,6 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StripeResponse {
-
     private String sessionId;
 }
