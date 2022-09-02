@@ -19,6 +19,12 @@ springdoc:
     path: /api-docs
     operations-sorter: method
 
+base_ur:
+  http://localhost:8081/
+STRIPE_SECRET_KEY:
+  ${STRIPE_SECRET_KEY:********}
+
+
 api:
   info:
     title: Fancy Store API
@@ -32,4 +38,6 @@ api:
     licence:
       name: Apache 2.0
       url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+
 
