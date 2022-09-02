@@ -4,6 +4,7 @@ import io.electrosalaf.fancystore.common.ApiResponse;
 import io.electrosalaf.fancystore.dto.cart.AddToCartDto;
 import io.electrosalaf.fancystore.dto.cart.CartDto;
 import io.electrosalaf.fancystore.exceptions.AuthenticationFailException;
+import io.electrosalaf.fancystore.exceptions.CartItemNotExistException;
 import io.electrosalaf.fancystore.exceptions.ProductNotExistException;
 import io.electrosalaf.fancystore.model.Product;
 import io.electrosalaf.fancystore.model.User;
@@ -26,9 +27,7 @@ public class CartController {
     @Autowired
     public CartController(
             CartService cartService,
-            ProductService productService,
-            AuthenticationService authenticationService
-    ) {
+            ProductService productService, AuthenticationService authenticationService) {
         this.cartService = cartService;
         this.productService = productService;
         this.authenticationService = authenticationService;
@@ -58,5 +57,18 @@ public class CartController {
 
         CartDto cartDto = cartService.listCartItems(user);
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{cartItemId}")
+    public ResponseEntity<ApiResponse> deleteCartItem(
+            @PathVariable("cartItemId") int cartItemId,
+            @RequestParam("token") String token) throws AuthenticationFailException, CartItemNotExistException {
+
+        authenticationService.authenticate(token);
+        User user = authenticationService.getUser(token);
+
+        cartService.deleteCartItem(cartItemId, user);
+
+        return new ResponseEntity<>(new ApiResponse(true, "Item successfully deleted"), HttpStatus.OK);
     }
 }
