@@ -41,5 +41,4 @@ public class CategoryService {
         oldCategory.setImageUrl(newCategory.getImageUrl());
         categoryRepository.save(newCategory);
     }
-
 }
