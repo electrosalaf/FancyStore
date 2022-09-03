@@ -6,6 +6,7 @@ import io.electrosalaf.fancystore.common.ApiResponse;
 import io.electrosalaf.fancystore.dto.checkout.CheckoutItemDto;
 import io.electrosalaf.fancystore.dto.checkout.StripeResponse;
 import io.electrosalaf.fancystore.exceptions.AuthenticationFailException;
+import io.electrosalaf.fancystore.model.Order;
 import io.electrosalaf.fancystore.model.User;
 import io.electrosalaf.fancystore.service.AuthenticationService;
 import io.electrosalaf.fancystore.service.OrderService;
@@ -46,5 +47,15 @@ public class OrderController {
 
         orderService.placeOrder(user, sessionId);
         return new ResponseEntity<>(new ApiResponse(true, "order placed successfully"), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Order>> getAllOrders(@RequestParam("token") String token) throws AuthenticationFailException {
+
+        authenticationService.authenticate(token);
+        User user = authenticationService.getUser(token);
+
+        List<Order> orderDtoList = orderService.listOrders(user);
+        return new ResponseEntity<>(orderDtoList, HttpStatus.OK);
     }
 }
