@@ -8,6 +8,7 @@ import com.stripe.param.checkout.SessionCreateParams.LineItem.PriceData;
 import io.electrosalaf.fancystore.dto.cart.CartDto;
 import io.electrosalaf.fancystore.dto.cart.CartItemDto;
 import io.electrosalaf.fancystore.dto.checkout.CheckoutItemDto;
+import io.electrosalaf.fancystore.exceptions.OrderNotFoundException;
 import io.electrosalaf.fancystore.model.Order;
 import io.electrosalaf.fancystore.model.OrderItem;
 import io.electrosalaf.fancystore.model.User;
@@ -18,9 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.stripe.param.checkout.SessionCreateParams.*;
 
@@ -128,5 +127,19 @@ public class OrderService {
 
     public List<Order> listOrders(User user) {
         return orderRepository.findAllByUserOrderByCreatedDateDesc(user);
+    }
+
+    public Order getOrder(Integer orderId, User user) throws OrderNotFoundException {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+
+        if (optionalOrder.isEmpty()) {
+            throw new OrderNotFoundException("Invalid order id");
+        }
+
+        Order order = optionalOrder.get();
+        if (order.getUser() != user) {
+            throw new OrderNotFoundException("Order does not belong to user");
+        }
+        return order;
     }
 }
