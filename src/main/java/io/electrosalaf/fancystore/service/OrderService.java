@@ -124,6 +124,9 @@ public class OrderService {
 
             orderItemsRepository.save(orderItem);
         }
+    }
 
+    public List<Order> listOrders(User user) {
+        return orderRepository.findAllByUserOrderByCreatedDateDesc(user);
     }
 }
